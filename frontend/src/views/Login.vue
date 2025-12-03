@@ -12,11 +12,9 @@ const handleLogin = async () => {
         error.value = '';
         const response = await api.login(email.value, password.value);
         
-        // Save token to localStorage
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data));
         
-        // Redirect to home
         router.push('/');
     } catch (err) {
         error.value = err.response?.data?.message || 'Login failed. Please try again.';
