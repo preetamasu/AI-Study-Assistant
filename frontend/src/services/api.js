@@ -2,6 +2,16 @@ import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 export default{
+
+    // authentication
+
+    register(name,email,password){
+        return axios.post(`${API_BASE_URL}/register`,{name,email,password});
+    },
+    login(email,password){
+        return axios.post(`${API_BASE_URL}/login`,{email,password});
+
+    },
     createNote(data){
         return axios.post(`${API_BASE_URL}/notes`,data);
     },
@@ -43,5 +53,6 @@ export default{
     getQuizHistory(){
         return axios.get(`${API_BASE_URL}/quiz/history`);
     }
+    
 
 }

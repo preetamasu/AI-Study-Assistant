@@ -1,5 +1,29 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+
+const router = useRouter()
+const isLoggedIn = ref(false)
+
+const checkAuth = () => {
+  isLoggedIn.value = !!localStorage.getItem('token')
+}
+
+const handleLogout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  isLoggedIn.value = false
+  router.push('/login')
+}
+
+onMounted(() => {
+  checkAuth()
+})
+
+// Watch for route changes to update auth status
+router.afterEach(() => {
+  checkAuth()
+})
 </script>
 
 <template>
@@ -23,6 +47,14 @@ import { RouterLink, RouterView } from 'vue-router'
             <span class="icon">📊</span>
             <span>Quiz History</span>
           </RouterLink>
+          <RouterLink v-if="!isLoggedIn" to="/login" class="nav-link">
+            <span class="icon">🔐</span>
+            <span>Login</span>
+          </RouterLink>
+          <button v-if="isLoggedIn" @click="handleLogout" class="nav-link logout-btn">
+            <span class="icon">🚪</span>
+            <span>Logout</span>
+          </button>
         </div>
       </nav>
     </header>
@@ -116,6 +148,17 @@ nav {
 .nav-link.router-link-active:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #ffe0e0;
+  color: #e74c3c;
 }
 
 main {

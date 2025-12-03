@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -7,6 +7,7 @@ const noteRoutes = require('./routes/noteRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const quizRoutes = require('./routes/quizRoutes');
 const quizHistoryRoutes = require('./routes/quizHistoryRoutes');
+const authRoutes = require('./routes/authRoutes');
 const app = express();
 
 // Enable CORS for frontend
@@ -18,6 +19,7 @@ app.use('/api',noteRoutes);
 app.use('/api',aiRoutes)
 app.use('/api',quizHistoryRoutes);
 app.use('/api',quizRoutes)
+app.use('/api',authRoutes)
 mongoose.connect(process.env.MONGODB_URI)
 .then(()=>{
     console.log("Connected to db");

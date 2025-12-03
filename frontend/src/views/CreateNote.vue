@@ -14,12 +14,11 @@ const createNote = async () =>{
   submitting.value = true;
   if(!title.value.trim() || !content.value.trim()) {
     error.value = 'Nothing entered'
+    submitting.value = false;
     return;
   }
   try{
-    title = title.value;
-    content = content.value;
-    const note = await api.createNote({title,content});
+    const note = await api.createNote({title: title.value,content: content.value});
     router.push('/');
 
   }
